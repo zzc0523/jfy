@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工程质量保函订单查询</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        secondary: '#3B82F6',
+                        accent: '#F59E0B',
+                        neutral: '#F3F4F6',
+                        beige: '#FDF8F3'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .nav-link {
+            position: relative;
+            color: #6B7280;
+        }
+        .nav-link:hover {
+            color: #1E40AF;
+        }
+        .nav-link.active {
+            color: #1E40AF;
+            font-weight: 600;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #1E40AF;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center space-x-10">
+                    <a href="#" class="flex items-center space-x-3 group">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-md">
+                                <i class="fa fa-circle-o text-white text-lg"></i>
+                            </div>
+                            <div class="w-8 h-1 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full mt-1"></div>
+                        </div>
+                        <div class="flex flex-col">
+                            <h1 class="text-gray-900 font-bold text-lg leading-none tracking-wide">福建省金融服务云平台</h1>
+                            <p class="text-gray-400 text-xs mt-0.5 tracking-wider">Fujian Financial Services Cloud Platform</p>
+                        </div>
+                    </a>
+                    
+                    <div class="hidden md:flex items-center h-full">
+                        <a href="#" class="nav-link flex items-center h-full px-6 text-sm font-medium transition-colors">
+                            首页
+                        </a>
+                        <a href="#" class="nav-link flex items-center h-full px-6 text-sm font-medium transition-colors">
+                            投标保函
+                        </a>
+                        <a href="标后保函.html" class="nav-link flex items-center h-full px-6 text-sm font-medium transition-colors">
+                            标后保函
+                        </a>
+                        <a href="订单查询.html" class="nav-link active flex items-center h-full px-6 text-sm font-medium transition-colors">
+                            订单查询
+                        </a>
+                        <a href="#" class="nav-link flex items-center h-full px-6 text-sm font-medium transition-colors">
+                            实名认证
+                        </a>
+                        <a href="#" class="nav-link flex items-center h-full px-6 text-sm font-medium transition-colors">
+                            个人中心
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2 pl-8 border-l border-gray-200">
+                        <span class="text-lg font-bold text-gray-900">9825</span>
+                        <button class="text-gray-500 hover:text-gray-700 transition-colors">
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-1 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-400"></div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="flex min-h-[calc(100vh-4rem)]">
+        <!-- 左侧边栏 -->
+        <aside class="w-64 bg-beige border-r border-gray-200 p-4">
+            <div class="space-y-2">
+                <button class="w-full text-left px-4 py-3 hover:bg-gray-100 text-gray-600 rounded-lg transition-colors" onclick="window.location.href='订单查询.html'">
+                    <i class="fa fa-file-text-o mr-2"></i>投标保证保函
+                </button>
+                <button class="w-full text-left px-4 py-3 bg-yellow-50 text-gray-900 font-semibold rounded-lg border-l-4 border-yellow-500">
+                    <i class="fa fa-shield mr-2"></i>工程质量保函
+                </button>
+                <button class="w-full text-left px-4 py-3 hover:bg-gray-100 text-gray-600 rounded-lg transition-colors" onclick="window.location.href='履约保函订单.html'">
+                    <i class="fa fa-check-circle mr-2"></i>履约保函
+                </button>
+            </div>
+        </aside>
+
+        <!-- 右侧主内容 -->
+        <main class="flex-1 p-6">
+            <!-- 搜索区域 -->
+            <div class="bg-white rounded-xl border border-gray-100 p-6 mb-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800">工程质量保函订单查询</h2>
+                </div>
+                
+                <!-- 搜索框 -->
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="flex-1 relative">
+                        <input 
+                            type="text" 
+                            placeholder="请输入保单号、项目名称或统一社会信用代码检索" 
+                            class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                        >
+                    </div>
+                    <button class="px-6 py-3 bg-yellow-500 text-white font-medium rounded-lg hover:bg-yellow-600 transition-colors">
+                        <i class="fa fa-search mr-2"></i>搜索
+                    </button>
+                    <button class="px-6 py-3 bg-gray-100 text-gray-600 font-medium rounded-lg hover:bg-gray-200 transition-colors">
+                        <i class="fa fa-refresh mr-2"></i>重置
+                    </button>
+                </div>
+
+                <!-- 筛选条件 -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- 保函状态 -->
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-2">保函状态:</label>
+                        <select class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            <option value="all">全部</option>
+                            <option value="pending">待审核</option>
+                            <option value="pending-payment">待支付</option>
+                            <option value="issued">已出函</option>
+                            <option value="cancelled">已取消</option>
+                            <option value="expired">已过期</option>
+                        </select>
+                    </div>
+
+                    <!-- 项目类型 -->
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-2">项目类型:</label>
+                        <select class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            <option value="all">全部</option>
+                            <option value="engineering">工程类</option>
+                            <option value="procurement">采购类</option>
+                        </select>
+                    </div>
+
+                    <!-- 保证机构 -->
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-2">保证机构:</label>
+                        <select class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            <option value="all">全部机构</option>
+                            <option value="bank">银行</option>
+                            <option value="insurance">保险公司</option>
+                            <option value="guarantee">担保公司</option>
+                        </select>
+                    </div>
+
+                    <!-- 申请时间 -->
+                    <div>
+                        <label class="block text-sm text-gray-500 mb-2">申请时间</label>
+                        <input 
+                            type="text" 
+                            placeholder="选择申请时间范围" 
+                            class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- 订单列表 -->
+            <div class="space-y-4">
+                <!-- 订单1 -->
+                <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-b border-gray-100">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">保单号:</span>
+                            <span class="text-sm font-medium text-gray-900">FJZLG202603250001</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                            <span class="text-sm text-green-600 font-medium">已出函</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-5 flex items-center space-x-6">
+                        <!-- 电子保函图标 -->
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex flex-col items-center justify-center flex-shrink-0">
+                            <i class="fa fa-file-text-o text-yellow-600 text-xl"></i>
+                            <span class="text-xs text-yellow-600 mt-1">电子保函</span>
+                        </div>
+                        
+                        <!-- 项目信息 -->
+                        <div class="flex-1 min-w-0">
+                            <div class="text-gray-900 font-medium mb-2">
+                                项目名称：福州市地铁5号线延长线工程
+                            </div>
+                            <div class="text-sm text-gray-500 space-y-1">
+                                <div>保证机构：中国建设银行</div>
+                                <div>保函产品类型：工程质量保函</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 金额 -->
+                        <div class="text-right flex-shrink-0">
+                            <div class="text-2xl font-bold text-yellow-600">¥500,000</div>
+                        </div>
+                        
+                        <!-- 操作按钮 -->
+                        <div class="flex-shrink-0 space-x-2">
+                            <button class="view-detail-btn px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors">
+                                <i class="fa fa-eye mr-1"></i>查看
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fa fa-download mr-1"></i>下载
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 订单2 -->
+                <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-b border-gray-100">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">保单号:</span>
+                            <span class="text-sm text-gray-400">暂无</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full"></span>
+                            <span class="text-sm text-blue-600 font-medium">待支付</span>
+                        </div>
+                    </div>
+                    <div class="px-6 py-5 flex items-center space-x-6">
+                        <!-- 电子保函图标 -->
+                        <div class="w-16 h-16 bg-yellow-100 rounded-full flex flex-col items-center justify-center flex-shrink-0">
+                            <i class="fa fa-file-text-o text-yellow-600 text-xl"></i>
+                            <span class="text-xs text-yellow-600 mt-1">电子保函</span>
+                        </div>
+                        
+                        <!-- 项目信息 -->
+                        <div class="flex-1 min-w-0">
+                            <div class="text-gray-900 font-medium mb-2">
+                                项目名称：厦门市翔安机场快速路南段B1标段
+                            </div>
+                            <div class="text-sm text-gray-500 space-y-1">
+                                <div>保证机构：中国平安保险</div>
+                                <div>保函产品类型：工程质量保函</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 金额 -->
+                        <div class="text-right flex-shrink-0">
+                            <div class="text-2xl font-bold text-yellow-600">¥250,000</div>
+                        </div>
+                        
+                        <!-- 操作按钮 -->
+                        <div class="flex-shrink-0 space-x-2">
+                            <button class="px-4 py-2 bg-yellow-500 text-white text-sm font-medium rounded-lg hover:bg-yellow-600 transition-colors">
+                                <i class="fa fa-credit-card mr-1"></i>立即支付
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fa fa-times mr-1"></i>取消申请
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="mt-6 flex items-center justify-center space-x-2">
+                <button class="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
+                <button class="px-4 py-2 bg-yellow-500 text-white rounded-lg">1</button>
+                <button class="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors">2</button>
+                <button class="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors">3</button>
+                <button class="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors">...</button>
+                <button class="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors">10</button>
+                <button class="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors">
+                    <i class="fa fa-chevron-right"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+    <!-- 查看详情弹窗 -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-2xl mx-4 overflow-hidden">
+            <div class="p-8">
+                <!-- 状态图标 -->
+                <div class="flex flex-col items-center mb-8">
+                    <div class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mb-4 relative">
+                        <i class="fa fa-check text-white text-4xl"></i>
+                        <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-3 bg-green-300 rounded-full opacity-50"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">已完成</h3>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button class="px-5 py-2.5 border border-yellow-500 text-yellow-600 font-medium rounded-lg hover:bg-yellow-50 transition-colors">
+                        下载发票
+                    </button>
+                    <button class="px-5 py-2.5 bg-yellow-500 text-white font-medium rounded-lg hover:bg-yellow-600 transition-colors">
+                        下载保函
+                    </button>
+                </div>
+
+                <!-- 项目信息 -->
+                <div class="bg-beige rounded-xl p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <div class="text-sm">
+                                <span class="text-gray-400">项目名称：</span>
+                                <span class="text-gray-600">福州市地铁5号线延长线工程</span>
+                            </div>
+                            <div class="text-sm">
+                                <span class="text-gray-400">项目编号：</span>
+                                <span class="text-gray-600">FJ-DT-2026-001</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="text-sm">
+                                <span class="text-gray-400">保证金(元)：</span>
+                                <span class="text-red-500 font-medium">¥500,000.00</span>
+                            </div>
+                            <div class="text-sm">
+                                <span class="text-gray-400">保费(元)：</span>
+                                <span class="text-red-500 font-medium">¥1,200.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关闭按钮 -->
+            <div class="px-8 pb-6 flex justify-end">
+                <button id="closeModal" class="px-6 py-2 bg-gray-100 text-gray-600 font-medium rounded-lg hover:bg-gray-200 transition-colors">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 查看详情弹窗
+        const detailBtn = document.querySelector('.view-detail-btn');
+        const detailModal = document.getElementById('detailModal');
+        const closeModal = document.getElementById('closeModal');
+
+        if (detailBtn) {
+            detailBtn.addEventListener('click', function() {
+                detailModal.classList.remove('hidden');
+            });
+        }
+
+        if (closeModal) {
+            closeModal.addEventListener('click', function() {
+                detailModal.classList.add('hidden');
+            });
+        }
+
+        // 点击弹窗外部关闭
+        detailModal.addEventListener('click', function(e) {
+            if (e.target === detailModal) {
+                detailModal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
